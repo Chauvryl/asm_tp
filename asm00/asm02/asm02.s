@@ -15,14 +15,24 @@ _start:
 	int 0x80
 
 	mov al, buf[0]
+	cmp al, '4';
+	jne _error
+
 	mov bl, buf[1]
+	cmp bl,'2';
+	jne _error
 
 	mov eax, 4
-	mov ebx, 1
-	mov ecx, buf
+	mov ebx,1
+	mov ecx, msg
 	mov edx, 5
 	int 0x80
 
 	mov eax, 1
 	mov ebx, 0
+	int 0x80
+
+_error:
+	mov eax, 1
+	mov ebx, 1
 	int 0x80

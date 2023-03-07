@@ -22,6 +22,11 @@ _start:
 	cmp bl,'2';
 	jne _error
 
+	mov bl, buf[2]
+	cmp bl,10;
+	jne _error
+
+
 	mov eax, 4
 	mov ebx,1
 	mov ecx, msg

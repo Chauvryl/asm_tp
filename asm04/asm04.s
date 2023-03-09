@@ -17,7 +17,7 @@ _start:
     mov eax, 3
     mov ebx, 0
     mov ecx, buf
-    mov edx, 2
+    mov edx, 16  ; nombre de caractère compté
     int 0x80
 
     ; Convertir les caractères en nombre entier
@@ -31,6 +31,12 @@ _start:
     mov al, byte [buf+1]
     sub eax, 48
     add eax, ebx
+
+
+    mov al, byte[buf+2]
+    cmp al, 10
+    jne _error
+    
 
     ; Déterminer si le nombre est pair ou impair
     mov ebx, 2
@@ -64,6 +70,18 @@ _impaire:
     mov ebx, 1
     int 0x80
 
+_error:
+    ; Afficher le message "erreur"
+    mov eax, 4
+    mov ebx, 1
+    mov ecx, msg_erreur
+    mov edx, len_msg_erreur
+    int 0x80
+    ; Terminer le programme
+    mov eax, 1
+    mov ebx, 1
+    int 0x80
+
 section .data
     msg db "Entrez un nombre à deux chiffres : ", 0
     len_msg equ $-msg
@@ -71,3 +89,5 @@ section .data
     len_msg_pair equ $-msg_pair
     msg_impaire db "Le nombre est impair.", 0
     len_msg_impaire equ $-msg_impaire
+    msg_erreur db "Le nombre n'est pas correct mon coco.", 0
+    len_msg_erreur equ $-msg_erreur
